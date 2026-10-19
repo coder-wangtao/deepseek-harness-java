@@ -1,0 +1,9 @@
+target/
+.idea/
+*.iml
+.DS_Store
+data/
+workspaces/
+/.workbuddy/
+/.walicode/
+/plugins/runtime-logs/dsh-demo-plugin.log

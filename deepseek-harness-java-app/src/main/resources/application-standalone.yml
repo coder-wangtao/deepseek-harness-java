@@ -1,0 +1,16 @@
+# standalone profile：零外部依赖单机模式。
+# 只覆盖与默认 profile 有差异的键（数据源切 H2），其余键沿用 application.yml + harness.yml。
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/deepseek-harness-java;MODE=MySQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+
+# profile 覆盖演示：standalone 下此值生效
+harness:
+  stage-name: standalone

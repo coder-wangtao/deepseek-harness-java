@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.wangtao</groupId>
+        <artifactId>deepseek-harness-java</artifactId>
+        <version>0.1.7</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>deepseek-harness-java-infrastructure</artifactId>
+    <description>适配器层：domain 端口的基础设施实现（持久化、LLM 适配、工具执行、插件加载等）。</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.wangtao</groupId>
+            <artifactId>deepseek-harness-java-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

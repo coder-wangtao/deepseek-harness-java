@@ -1,0 +1,22 @@
+server:
+  port: 8888
+
+logging:
+  level:
+    cn.wangtao.deepseek.harness: info
+
+spring:
+  application:
+    name: deepseek-harness-java
+  config:
+    import:
+      # 双通道：classpath 内置兜底 + 工作目录文件覆盖（optional 表示文件可缺失）
+      - optional:classpath:harness.yml
+      - optional:file:./harness.yml
+
+# 运维健康检查：仅暴露 health/info，避免泄漏运行时细节
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

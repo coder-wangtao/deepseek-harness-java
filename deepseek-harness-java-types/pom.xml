@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.wangtao</groupId>
+        <artifactId>deepseek-harness-java</artifactId>
+        <version>0.1.7</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>deepseek-harness-java-types</artifactId>
+    <description>共享类型与插件 SPI 契约层：消息/工具模型、插件生命周期契约。不依赖任何内部模块。</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

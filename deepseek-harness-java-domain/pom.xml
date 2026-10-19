@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.wangtao</groupId>
+        <artifactId>deepseek-harness-java</artifactId>
+        <version>0.1.7</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>deepseek-harness-java-domain</artifactId>
+    <description>领域层：端口（Port）定义与领域服务。六边形架构的内核，只依赖 types。</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.wangtao</groupId>
+            <artifactId>deepseek-harness-java-types</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

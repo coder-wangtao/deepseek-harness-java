@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.wangtao</groupId>
+        <artifactId>deepseek-harness-java</artifactId>
+        <version>0.1.7</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>deepseek-harness-java-case</artifactId>
+    <description>用例编排层：策略树骨架与各业务用例流水线，串联 domain 能力响应 api 契约。</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.wangtao</groupId>
+            <artifactId>deepseek-harness-java-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.wangtao</groupId>
+            <artifactId>deepseek-harness-java-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
