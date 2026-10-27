@@ -17,8 +17,6 @@ import java.util.UUID;
  * @param content 发送给模型的完整内容块
  * @param source  消息来源，表示由谁或什么组件产生
  *
- * @author 小傅哥
- * @website bugstack.cn
  */
 public record Message(
         String id,

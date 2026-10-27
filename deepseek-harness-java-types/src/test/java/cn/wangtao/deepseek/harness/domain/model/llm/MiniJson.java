@@ -15,9 +15,6 @@ import java.util.Map;
  * <p>支持类型：object → {@code Map<String,Object>}，array → {@code List<Object>}，
  * string → {@code String}，整数 → {@code Long}，小数 → {@code Double}，
  * true/false → {@code Boolean}，null → {@code null}。</p>
- *
- * @author 小傅哥
- * @website bugstack.cn
  */
 final class MiniJson {
 

@@ -35,19 +35,17 @@ import java.util.Map;
  *
  * <p>纯 JDK 实现（HttpClient + MiniJson），不加任何依赖，与 types 模块零依赖纪律一致。</p>
  *
- * @author 小傅哥
- * @website bugstack.cn
  */
 public final class LlmChatClient {
 
     /** 本地 LLM 网关地址（OpenAI 兼容协议）。 */
-    private static final String BASE_URL = "http://127.0.0.1:8777/v1/chat/completions";
+    private static final String BASE_URL = "https://api.moonshot.cn/v1";
     /** 网关鉴权 Token。 */
-    private static final String API_KEY = "sk-waliapi-4f8895c43a6c4bc1ae6173fd0915c0e9";
+    private static final String API_KEY = "sk-djOGgK0CmAil04SF14mwfLOPT9KfyTxY0Ykz1TWjfEtTFRIE";
     /** 模型名。 */
-    private static final String MODEL = "glm-5.3-flash";
+    private static final String MODEL = "kimi-k2.6";
     /** 来源标识：模型回复统一打上这个 provider/model 溯源标签。 */
-    private static final String PROVIDER = "waliapi";
+    private static final String PROVIDER = "kimi";
 
     /** 请求超时：本地网关首次调用可能有冷启动，给足余量。 */
     private static final Duration TIMEOUT = Duration.ofSeconds(120);
@@ -78,7 +76,7 @@ public final class LlmChatClient {
             }
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL))
+                    .uri(URI.create(BASE_URL + "/chat/completions"))
                     .timeout(TIMEOUT)
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + API_KEY)
@@ -91,7 +89,7 @@ public final class LlmChatClient {
             }
             return toDomain(response.body());
         } catch (Exception e) {
-            throw new RuntimeException("LLM API 调用失败，请确认本地网关 127.0.0.1:8777 已启动", e);
+            throw new RuntimeException("LLM API 调用失败: " + BASE_URL + "/chat/completions", e);
         }
     }
 

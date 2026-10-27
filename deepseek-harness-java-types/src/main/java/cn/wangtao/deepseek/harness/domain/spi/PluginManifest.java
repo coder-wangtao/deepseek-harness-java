@@ -18,8 +18,6 @@ import java.util.Objects;
  * {@code entrypoint} 是实现 {@link JavaHarnessPlugin} 的全限定类名。该字段可选；
  * 未填写时 Harness 会回退到 {@code META-INF/services} 的 ServiceLoader 发现机制。
  *
- * @author 小傅哥
- * @website bugstack.cn
  */
 public final class PluginManifest {
 

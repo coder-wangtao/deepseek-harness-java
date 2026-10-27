@@ -52,8 +52,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <p>运行方式（工程默认 skipTests=true，需显式打开）：<br>
  * {@code mvn test -pl deepseek-harness-java-types -Dtest=LlmChatModelTest -DskipTests=false}</p>
  *
- * @author 小傅哥
- * @website bugstack.cn
  */
 class LlmChatModelTest {
 
@@ -113,7 +111,7 @@ class LlmChatModelTest {
      * </ul>
      *
      * <p>流程：构造用户消息 → 真实 API 调用 → 断言回复是 assistant 角色、
-     * 来源为 ModelMessageSource（provider=waliapi, model=glm-5.3-flash）、正文非空。</p>
+     * 来源为 ModelMessageSource（provider=kimi, model=kimi-k2.6）、正文非空。</p>
      */
     @Test
     void singleTurn_userMessage_getsModelReplyWithSourceTag() {
@@ -131,8 +129,8 @@ class LlmChatModelTest {
         assertEquals("assistant", reply.role());
         MessageSource.ModelMessageSource source =
                 assertInstanceOf(MessageSource.ModelMessageSource.class, reply.source());
-        assertEquals("waliapi", source.provider());
-        assertEquals("glm-5.3-flash", source.model());
+        assertEquals("kimi", source.provider());
+        assertEquals("kimi-k2.6", source.model());
 
         // 4. 可见正文在 TextBlock 中，非空
         String text = firstText(reply);
@@ -167,7 +165,7 @@ class LlmChatModelTest {
         // 2. 模拟"历史从存储恢复"：用领域工厂重建第一轮的助手消息（来源标签随历史一并还原）
         Message turn1Assistant = Message.createAssistant(
                 List.of(new TextBlock("好的，我记住了：你的宠物叫旺财，是一只柯基犬。")),
-                new MessageSource.ModelMessageSource("waliapi", "glm-5.3-flash"));
+                new MessageSource.ModelMessageSource("kimi", "kimi-k2.6"));
 
         // 3. 第二轮：完整历史（user + assistant + 新 user）一起发送
         Message turn2User = Message.createUser(
@@ -408,6 +406,7 @@ class LlmChatModelTest {
 
         // ImageAttachmentRef：防御性 clone —— 修改外部数组不影响内部持有
         ImageAttachmentRef ref = new ImageAttachmentRef(png, "image/png", 1, 1);
+        //创建 ref 之后，外部修改 png，会不会影响 ref 内部的数据。
         byte mutated = (byte) 0xFF;
         png[0] = mutated;
         assertNotEquals(mutated, ref.data()[0], "外部数组被改后，附件内部字节应保持不变");

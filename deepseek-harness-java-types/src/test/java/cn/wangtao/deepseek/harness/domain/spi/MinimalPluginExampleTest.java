@@ -125,9 +125,14 @@ class MinimalPluginExampleTest {
      *   <li>stop() 时逆序调用关闭器，保证资源释放顺序与注册顺序相反。</li>
      *   </ul>
      */
+    // 插件负责注册功能，宿主负责保存这些注册信息，并在插件停止时回收资源。
     static final class FakeHost {
 
         /** 宿主暴露给 Agent 的工具表：key 为带前缀完整名 plugin__<pluginId>__<toolName>。 */
+        //exposedTools.put(
+        //  "plugin__" + pluginId + "__" + tool.name(),
+        //  tool
+        //);
         final Map<String, ToolDefinition> exposedTools = new HashMap<>();
 
         /**
@@ -152,12 +157,14 @@ class MinimalPluginExampleTest {
          * 模拟宿主加载插件：实例化 → configure → onStart。
          */
         void load(JavaHarnessPlugin plugin) {
+
             plugin.configure(new HostContext(plugin.pluginId()));
             plugin.onStart();
         }
 
         /**
          * 模拟宿主发布事件：投递给订阅方（真实宿主经 PluginEventBus 分发）。
+         * 发送事件
          */
         void emit(String eventName, Object payload) {
             deliveredEvents.add(new PluginEvent("host", eventName, payload, null));
@@ -255,7 +262,7 @@ class MinimalPluginExampleTest {
         assertEquals("greet", greet.name());
 
         // 4. Agent 调用工具：入参走 JSON Schema 声明的 name 字段
-        ToolExecutionResult result = greet.execute(Map.of("name", "小傅哥"), null).join();
+        ToolExecutionResult result = greet.execute(Map.of("name", "wt"), null).join();
         assertFalse(result.isError());
         // TextBlock 文本内容为问候语（工具 ok() 包装）
         log.info("[案例] 工具调用成功，返回={}", firstText(result));
@@ -380,7 +387,7 @@ class MinimalPluginExampleTest {
             HttpClient http = HttpClient.newBuilder()
                     .connectTimeout(Duration.ofSeconds(2)).build();
             HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create("http://127.0.0.1:8777/v1/models"))
+                    .uri(URI.create("https://api.moonshot.cn/v1/models"))
                     .timeout(Duration.ofSeconds(3)).GET().build();
             // 网关可能要求鉴权：401 也说明服务在线
             int code = http.send(req, HttpResponse.BodyHandlers.ofString()).statusCode();
@@ -394,7 +401,6 @@ class MinimalPluginExampleTest {
      * 端到端案例：真实 LLM 依据工具的 name/description 自主决定调用插件工具，宿主执行后回填，模型基于结果生成最终回答。
      * <p/>
      *
-     * <a href="https://github.com/fuzhengwei/WaLiAPI/releases/tag/waliapi-v0.4.4">推荐下载 waliapi 配置后测试，确保 apikey 不暴漏（本地key，提交也没问题）。</a>
      *
      * <p>与 v0.1.8 分支方案一致的关键点：
      * <ul>
@@ -412,7 +418,7 @@ class MinimalPluginExampleTest {
     @Test
     void minimalPlugin_withRealLlm_agentLoop() throws Exception {
         Assumptions.assumeTrue(gatewayAlive(),
-                "本地 LLM 网关 127.0.0.1:8777 未启动，跳过端到端用例。请下载 WaLiAPI 配置力模型使用。");
+                "本地 LLM 网关 127.0.0.1:8777 未启动，跳过端到端用例。请下载 DamaoAPI 配置力模型使用。");
 
         // 1. 宿主加载插件，工具注册进暴露表；传给模型的工具定义使用带前缀的完整名
         //    （以分支 v0.1.8 方案为准：模型看到并调用的就是 plugin__<pluginId>__<toolName>）
@@ -428,7 +434,7 @@ class MinimalPluginExampleTest {
         // 2. 对话起点：用户问题 + 宿主注入的工具使用提示（v0.1.8 同款 system prompt 位置）
         List<Message> messages = new ArrayList<>();
         messages.add(Message.createUser(
-                List.of(new TextBlock("请使用打招呼工具向小傅哥问好，并告诉我它回了什么。")),
+                List.of(new TextBlock("请使用打招呼工具向wt问好，并告诉我它回了什么。")),
                 new MessageSource.UserSource()));
 
         // 3. Agent 循环：最多 3 轮，工具简单足够收敛
