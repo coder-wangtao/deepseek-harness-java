@@ -257,7 +257,7 @@ class MinimalPluginExampleTest {
 
         // 3. 工具以 plugin__greeting__greet 暴露给 Agent
         assertEquals(1, host.exposedTools.size());
-        ToolDefinition greet = host.exposedTools.get("plugin__greeting__greet");
+        ToolDefinition greet = host.exposedTools.get("plugin__greeting__greet");    
         assertNotNull(greet);
         assertEquals("greet", greet.name());
 
