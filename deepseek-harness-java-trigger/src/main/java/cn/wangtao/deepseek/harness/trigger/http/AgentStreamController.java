@@ -18,8 +18,7 @@ import java.util.concurrent.Executors;
 /**
  * Agent 流式对话控制器：把 api 契约中的 SSE 流式接口暴露为 HTTP 端点。
  *
- * @author 小傅哥
- * @website bugstack.cn
+ * @author wt
  */
 @RestController
 @RequestMapping("/api/agent")
@@ -63,6 +62,7 @@ public class AgentStreamController {
             return t;
         });
 
+        //把耗时的流式推送工作交给后台线程执行，避免在请求处理方法里同步等待整个回答生成完毕。
         @Override
         public SseEmitter sendMessageStreaming(AgentMessageRequestDTO request) {
             log.info("[SSE] 收到流式请求 agentId={}", request.agentId());

@@ -12,7 +12,7 @@ import cn.wangtao.deepseek.harness.api.response.Response;
 /**
  * 平台插件命令接口：负责插件的安装、激活、运行、停用、启用与卸载。
  *
- * @author 小傅哥
+ * @author wt
  */
 public interface IHarnessPluginCommandApi {
 
