@@ -8,8 +8,7 @@ import cn.wangtao.deepseek.harness.api.response.Response;
 /**
  * Agent 对话接口：负责向 Agent 发送消息、查询状态与取消运行。
  *
- * @author 小傅哥
- * @website bugstack.cn
+ * @author wt
  */
 public interface IAgentApi {
     /**

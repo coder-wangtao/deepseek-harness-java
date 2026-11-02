@@ -1,4 +1,4 @@
-package cn.xiaofuge.deepseek.harness.api.dto;
+package cn.wangtao.deepseek.harness.api.dto;
 
 /**
  * 返回当前 LLM 运行时可用的一个模型渠道。
