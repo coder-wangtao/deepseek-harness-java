@@ -240,7 +240,7 @@ public class DeepSeekAdapter implements LlmAdapter {
      */
     @Override
     public Flow.Publisher<StreamChunk> stream(GenerateOptions genOptions) {
-        SubmissionPublisher<StreamChunk> publisher = new SubmissionPublisher<>();
+        SubmissionPublisher<StreamChunk> publisher = new SubmissionPublisher<>(); //创建了一个发布者
         new Thread(() -> {
             try {
                 doStream(genOptions, publisher);
@@ -262,6 +262,8 @@ public class DeepSeekAdapter implements LlmAdapter {
      * @param genOptions 生成参数
      * @param publisher  事件发布器
      */
+    //向一个兼容 OpenAI API 的大模型服务发送 HTTP 流式请求（Streaming），
+    // 接收服务器返回的 SSE（Server-Sent Events）数据，并将数据转换成程序内部的 StreamChunk，通过 SubmissionPublisher 发布出去。
     private void doStream(GenerateOptions genOptions, SubmissionPublisher<StreamChunk> publisher) throws Exception {
         String apiKey = genOptions.apiKey() != null && !genOptions.apiKey().isBlank()
                 ? genOptions.apiKey() : options.resolveApiKey();
@@ -652,6 +654,30 @@ public class DeepSeekAdapter implements LlmAdapter {
      * @param publisher 事件发布器
      * @return 是否成功流式输出（false = 需要非流式兜底）
      */
+    //将上游大语言模型返回的 SSE（Server-Sent Events）流式响应，转换成你自己定义的 StreamChunk 事件，并通过 SubmissionPublisher 实时发布给下游消费者。
+    //data: {"choices":[{"delta":{"reasoning_content":"让我"},"finish_reason":null}]}
+    //data: {"choices":[{"delta":{"reasoning_content":"思考一下"},"finish_reason":null}]}
+    //data: {"choices":[{"delta":{"content":"你好"},"finish_reason":null}]}
+    //data: {"choices":[{"delta":{"content":"，世界！"},"finish_reason":null}]}
+    //data: {"choices":[{"delta":{},"finish_reason":"stop"}]}
+    //data: [DONE]
+    //||
+    //||
+    //||
+    //||
+    //||
+    //BlockStart(index=0, type=reasoning)
+    //ReasoningDelta(index=0, "让我")
+    //ReasoningDelta(index=0, "思考一下")
+    //
+    //BlockStart(index=1, type=text)
+    //TextDelta(index=1, "你好")
+    //TextDelta(index=1, "，世界！")
+    //
+    //BlockEnd(index=0)
+    //BlockEnd(index=1)
+    //
+    //Finish(Stop)
     private boolean translateSse(BufferedReader reader, SubmissionPublisher<StreamChunk> publisher) throws IOException {
         int nextIndex = 0;
         Integer textBlockIndex = null;

@@ -186,7 +186,9 @@ public class InMemoryLlmRuntimePort implements ILlmRuntimePort {
             log.error("模型路由失败：provider='{}' 未注册适配器，可用 providers={}。"
                             + "请检查 Web 控制台模型设置中的 providerCode。",
                     options.provider(), adapters.keySet());
+            //SubmissionPublisher是 Java Flow API 提供的一个发布者实现。
             SubmissionPublisher<StreamChunk> publisher = new SubmissionPublisher<>();
+            //submit就是向订阅者发布一条数据。
             publisher.submit(new StreamChunk.Finish(new FinishReason.Error(new LlmFailure(
                     "No adapter registered for provider '" + options.provider()
                             + "'. Available providers: " + adapters.keySet()
@@ -199,6 +201,7 @@ public class InMemoryLlmRuntimePort implements ILlmRuntimePort {
 
         ResolvedRetryPolicy policy = adapter.retryPolicy(options.provider());
         if (policy != null) {
+            //重试
             return retryingStream(adapter, options, policy);
         }
 
@@ -207,16 +210,19 @@ public class InMemoryLlmRuntimePort implements ILlmRuntimePort {
         adapter.stream(options).subscribe(new Flow.Subscriber<>() {
             @Override
             public void onSubscribe(Flow.Subscription subscription) {
+                //建立订阅时 订阅者表示我最多还可以接收 n 个元素。
                 subscription.request(Long.MAX_VALUE);
             }
 
             @Override
             public void onNext(StreamChunk item) {
+                //收到数据时
                 wrapper.submit(item);
             }
 
             @Override
             public void onError(Throwable throwable) {
+                //出现异常时
                 LlmFailure failure = new LlmFailure(
                         throwable.getMessage() != null ? throwable.getMessage() : "LLM adapter failed",
                         LlmErrorCodes.UNKNOWN
@@ -229,6 +235,7 @@ public class InMemoryLlmRuntimePort implements ILlmRuntimePort {
 
             @Override
             public void onComplete() {
+                //正常完成时
                 wrapper.close();
             }
         });

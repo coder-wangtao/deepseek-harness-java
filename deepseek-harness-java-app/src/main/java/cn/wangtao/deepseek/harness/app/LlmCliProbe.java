@@ -17,7 +17,7 @@ import cn.wangtao.deepseek.harness.infrastructure.adapter.llm.deepseek.DeepSeekA
 import cn.wangtao.deepseek.harness.infrastructure.adapter.llm.deepseek.DirectSeekCatalogModel;
 
 /**
- * xfg-2-1 验收入口：CLI 一次非流式对话。
+ * 验收入口：CLI 一次非流式对话。
  *
  * <h2>设计目的</h2>
  * <p>
