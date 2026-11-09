@@ -72,14 +72,16 @@ public class LlmGenerationService {
      * @param options 生成参数（provider/model/messages/system 等）
      * @return 完成后携带完整 assistant 消息；流失败则异常完成
      */
+    // 调用大语言模型进行一次流式生成，但是不把每个 chunk 直接返回给调用方，而是等整个流结束后，
+    // 将所有 chunk 组装成一条完整的 Message，再通过 CompletableFuture 异步返回。
     public CompletableFuture<Message> generate(GenerateOptions options) {
         // ── 1. 准备流式消费的三件套 ──────────────────────────
         // assembler：chunk 累积器，把 BlockStart/TextDelta/BlockEnd 等事件拼成完整消息
-        var assembler = new BlockAssembler();
+        var assembler = new BlockAssembler(); //BlockAssembler是消息组装器
         // done：流结束信号灯，onError/onComplete 任一到达即 countDown 放行等待线程
-        var done = new CountDownLatch(1);
+        var done = new CountDownLatch(1); //这是 Java 并发编程中的同步工具:让一个线程等待，直到另一个线程通知它任务完成。
         // error：跨线程异常传递（发布者线程写入，supplyAsync 线程读取）
-        var error = new AtomicReference<Throwable>();
+        var error = new AtomicReference<Throwable>();// 跨线程传递异常
 
         // ── 2. 订阅端口流：每条 chunk 交给组装器，终态唤醒等待线程 ──
         llmRuntimePort.stream(options).subscribe(new Flow.Subscriber<>() {

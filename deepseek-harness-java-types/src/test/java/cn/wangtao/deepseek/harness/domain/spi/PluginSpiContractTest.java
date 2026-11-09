@@ -14,7 +14,6 @@ import java.util.concurrent.CompletableFuture;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * xfg-1-2 验证入口：插件 SPI 契约的最小行为验证。
  *
  * <p>覆盖四件事：
  * 1) PluginManifest 清单解析与校验；

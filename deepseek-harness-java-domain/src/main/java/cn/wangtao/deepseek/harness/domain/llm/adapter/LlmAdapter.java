@@ -167,7 +167,7 @@ public interface LlmAdapter {
     /**
      * 列出该 provider 暴露的模型目录。
      *
-     * <p><b>curl 出入参</b>（xfg-2-1 最小版：模型目录来自本地配置
+     * <p><b>curl 出入参</b>（最小版：模型目录来自本地配置
      * {@code DeepSeekAdapterOptions.models()}，<b>不发起任何 HTTP 请求</b>，
      * 下面 curl 是上游的对应端点，后续章节引入上游发现时使用）：</p>
      *
@@ -192,7 +192,7 @@ public interface LlmAdapter {
      * 解析某个模型的精确元数据（上下文窗口、默认输出上限等），
      * 供路由层做上下文长度预检与参数默认值填充。
      *
-     * <p><b>curl 出入参</b>（xfg-2-1 最小版：元数据同样来自本地配置的
+     * <p><b>curl 出入参</b>（最小版：元数据同样来自本地配置的
      * {@code contextWindow/maxTokens}，<b>不发起 HTTP 请求</b>；
      * OpenAI 协议没有"单模型详情"端点，标准做法是 GET /v1/models
      * 后按 id 过滤，出入参见 {@link #listModels}。参数即方法签名：

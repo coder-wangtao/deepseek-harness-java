@@ -19,7 +19,6 @@ import java.util.concurrent.CompletableFuture;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * xfg-1-1 验证入口：消息与工具模型的最小行为验证。
  *
  * <p>覆盖四件事：
  * 1) Message 工厂创建（user/assistant/tool）与不可变性；

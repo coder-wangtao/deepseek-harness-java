@@ -13,13 +13,13 @@ class ApiArchitectureTest {
     void apiMustNotDependOnDomainOrInfrastructure() {
         var classes = new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
-                .importPackages("cn.xiaofuge.deepseek.harness");
+                .importPackages("cn.wangtao.deepseek.harness");
 
         ArchRuleDefinition.noClasses()
-                .that().resideInAPackage("cn.xiaofuge.deepseek.harness.api..")
+                .that().resideInAPackage("cn.wangtao.deepseek.harness.api..")
                 .should().dependOnClassesThat().resideInAnyPackage(
-                        "cn.xiaofuge.deepseek.harness.domain..",
-                        "cn.xiaofuge.deepseek.harness.infrastructure.."
+                        "cn.wangtao.deepseek.harness.domain..",
+                        "cn.wangtao.deepseek.harness.infrastructure.."
                 )
                 .check(classes);
     }
@@ -28,10 +28,10 @@ class ApiArchitectureTest {
     void apiContractsMustUseDtoNaming() {
         var classes = new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
-                .importPackages("cn.xiaofuge.deepseek.harness.api");
+                .importPackages("cn.wangtao.deepseek.harness.api");
 
         ArchRuleDefinition.classes()
-                .that().resideInAPackage("cn.xiaofuge.deepseek.harness.api.dto")
+                .that().resideInAPackage("cn.wangtao.deepseek.harness.api.dto")
                 .should().haveSimpleNameEndingWith("DTO")
                 .check(classes);
     }
@@ -40,10 +40,10 @@ class ApiArchitectureTest {
     void apiResponseMustOnlyContainWrappers() {
         var classes = new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
-                .importPackages("cn.xiaofuge.deepseek.harness.api");
+                .importPackages("cn.wangtao.deepseek.harness.api");
 
         ArchRuleDefinition.classes()
-                .that().resideInAPackage("cn.xiaofuge.deepseek.harness.api.response")
+                .that().resideInAPackage("cn.wangtao.deepseek.harness.api.response")
                 .should().haveSimpleName("Response")
                 .orShould().haveSimpleName("ResponsePage")
                 .check(classes);
@@ -53,10 +53,10 @@ class ApiArchitectureTest {
     void apiInterfaceMethodsMustReturnResponseWrapper() {
         var classes = new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
-                .importPackages("cn.xiaofuge.deepseek.harness.api");
+                .importPackages("cn.wangtao.deepseek.harness.api");
 
         ArchRuleDefinition.methods()
-                .that().areDeclaredInClassesThat().resideInAPackage("cn.xiaofuge.deepseek.harness.api")
+                .that().areDeclaredInClassesThat().resideInAPackage("cn.wangtao.deepseek.harness.api")
                 .should().haveRawReturnType(Response.class)
                 .check(classes);
     }
@@ -65,11 +65,11 @@ class ApiArchitectureTest {
     void streamContractsMustReturnSseEmitter() {
         var classes = new ClassFileImporter()
                 .withImportOption(new ImportOption.DoNotIncludeTests())
-                .importPackages("cn.xiaofuge.deepseek.harness.api.stream");
+                .importPackages("cn.wangtao.deepseek.harness.api.stream");
 
         ArchRuleDefinition.methods()
                 .that().areDeclaredInClassesThat()
-                .resideInAPackage("cn.xiaofuge.deepseek.harness.api.stream")
+                .resideInAPackage("cn.wangtao.deepseek.harness.api.stream")
                 .should().haveRawReturnType(SseEmitter.class)
                 .check(classes);
     }

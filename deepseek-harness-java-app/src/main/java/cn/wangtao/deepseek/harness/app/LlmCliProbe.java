@@ -17,7 +17,7 @@ import cn.wangtao.deepseek.harness.infrastructure.adapter.llm.deepseek.DeepSeekA
 import cn.wangtao.deepseek.harness.infrastructure.adapter.llm.deepseek.DirectSeekCatalogModel;
 
 /**
- * xfg-2-1 验收入口：CLI 一次非流式对话。
+ * 验收入口：CLI 一次非流式对话。
  *
  * <h2>设计目的</h2>
  * <p>
@@ -44,11 +44,11 @@ import cn.wangtao.deepseek.harness.infrastructure.adapter.llm.deepseek.DirectSee
  * <pre>
  * # 方式一：环境变量指定 Key（推荐）
  * DEEPSEEK_API_KEY=sk-xxx mvn -pl deepseek-harness-java-app exec:java \
- *   -Dexec.mainClass=cn.xiaofuge.deepseek.harness.app.LlmCliProbe
+ *   -Dexec.mainClass=cn.wangtao.deepseek.harness.app.LlmCliProbe
  *
  * # 方式二：直接跑（未设环境变量时回落到类内 WaLiAPI 网关默认配置）
  * mvn -pl deepseek-harness-java-app exec:java \
- *   -Dexec.mainClass=cn.xiaofuge.deepseek.harness.app.LlmCliProbe \
+ *   -Dexec.mainClass=cn.wangtao.deepseek.harness.app.LlmCliProbe \
  *   -Dexec.args='你好，用一句话介绍 Java 的 Flow API'
  * </pre>
  *
@@ -100,7 +100,7 @@ public class LlmCliProbe {
         String baseUrl = System.getenv().getOrDefault("DEEPSEEK_BASE_URL", BASE_URL);
         String model = System.getenv().getOrDefault("DEEPSEEK_MODEL", MODEL);
 
-        System.out.println("=== xfg-2-1 LLM CLI Probe ===");
+        System.out.println("=== LLM CLI Probe ===");
         System.out.println("baseUrl = " + baseUrl);
         System.out.println("model   = " + model);
 

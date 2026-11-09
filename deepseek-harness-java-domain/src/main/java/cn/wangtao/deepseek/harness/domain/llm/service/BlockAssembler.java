@@ -84,7 +84,7 @@ public class BlockAssembler {
     public void push(StreamChunk chunk) {
         if (chunk instanceof StreamChunk.BlockStart bs) {
             // 已登记过则忽略重复 Start，未登记则登记新块
-            if (!partials.containsKey(Optional.of(bs.index()))) {
+            if (!partials.containsKey(Integer.valueOf(bs.index()))) {
                 order.add(Integer.valueOf(bs.index()));
                 partials.put(Integer.valueOf(bs.index()), new PartialBlock(bs.blockType()));
             }
@@ -123,7 +123,7 @@ public class BlockAssembler {
      * @return 对应的累积块
      */
     private PartialBlock ensure(int index, String blockType) {
-        PartialBlock partial = partials.get(Optional.of(index));
+        PartialBlock partial = partials.get(Integer.valueOf(index));
         if (partial == null) {
             partial = new PartialBlock(blockType);
             partials.put(Integer.valueOf(index), partial);
@@ -176,7 +176,7 @@ public class BlockAssembler {
     public List<ContentBlock> blocks() {
         List<ContentBlock> all = new ArrayList<>();
         for (int index : order) {
-            PartialBlock partial = partials.get(Optional.of(index));
+            PartialBlock partial = partials.get(Integer.valueOf(index));
             if (partial == null) throw new IllegalStateException(
                     "BlockAssembler invariant violated: no partial for index " + index);
             all.add(assemble(partial, index));

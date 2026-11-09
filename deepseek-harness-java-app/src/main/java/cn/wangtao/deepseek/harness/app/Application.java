@@ -13,10 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 目的是用模块边界强制执行分层依赖：domain 不依赖 infrastructure，
  * 所有外部能力（LLM、数据库、插件）都通过 domain 定义的 Port 接口反向接入。</p>
  *
- * <p>初始工程（xfg-0-1）：仅装配 Spring Boot 与 7 模块骨架，
- * MyBatis MapperScan 等能力随后续章节（xfg-5-1）引入。</p>
+ * <p>初始工程：仅装配 Spring Boot 与 7 模块骨架，
+ * MyBatis MapperScan 等能力随后续章节引入。</p>
  *
- * <p>包扫描范围固定为 {@code cn.xiaofuge.deepseek.harness}，
+ * <p>包扫描范围固定为 {@code cn.wangtao.deepseek.harness}，
  * 保证 7 个模块里的 @Component 都能被同一个容器发现。</p>
  *
  * @author wt

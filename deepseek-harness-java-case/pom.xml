@@ -17,13 +17,28 @@
         <dependency>
             <groupId>cn.wangtao</groupId>
             <artifactId>deepseek-harness-java-domain</artifactId>
-            <version>${project.version}</version>
+            <version>0.1.7</version>
         </dependency>
         <dependency>
             <groupId>cn.wangtao</groupId>
             <artifactId>deepseek-harness-java-api</artifactId>
-            <version>${project.version}</version>
+            <version>0.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
+
+
 
 </project>
