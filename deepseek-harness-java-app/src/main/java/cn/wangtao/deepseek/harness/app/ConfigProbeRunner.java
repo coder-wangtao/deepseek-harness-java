@@ -1,14 +1,15 @@
 package cn.wangtao.deepseek.harness.app;
 
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 /**
  * 配置体系探针：应用就绪后打印配置分层与 profile 生效情况。
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
  * <p>设计目的：让"配置从哪来"在启动日志里肉眼可见——
  * application.yml（框架层）→ harness.yml（业务层，双通道）→ 环境变量（嵌套兜底）→ 命令行参数（最高优先级）。</p>
  *
- * @author wangtao
+ * @author wt
  */
 @Component
 public class ConfigProbeRunner {
@@ -63,6 +64,10 @@ public class ConfigProbeRunner {
 
     /**
      * 读取配置键，未配置时返回占位标记（区别于空串）。
+     *
+     * <p>设计细节：返回 {@code <unset>} 而不是 null/空串，是为了在日志里
+     * 一眼区分"配置了但是空的"和"压根没配"——这是排查配置覆盖问题时
+     * 最容易混淆的两种情况。</p>
      */
     private String resolve(String key) {
         String value = environment.getProperty(key);
