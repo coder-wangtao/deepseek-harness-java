@@ -61,7 +61,7 @@ public class AgentStreamApi implements IAgentStreamApi {
     @Override
     public SseEmitter sendMessageStreaming(AgentMessageRequestDTO request) {
         // 0L 表示永不超时，由 emitter.complete() 主动收尾；此行先返回给 Spring，前端连接即刻建立
-        SseEmitter emitter = new SseEmitter(0L);
+        SseEmitter emitter = new SseEmitter(0L); //Spring MVC 提供的 SSE 工具
 
         Thread worker = new Thread(() -> {
             try {

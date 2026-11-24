@@ -206,6 +206,7 @@ public class InMemoryLlmRuntimePort implements ILlmRuntimePort {
         }
 
         // 包装适配器的流式输出，统一异常表现
+        // 当前方法自己创建的Publisher
         SubmissionPublisher<StreamChunk> wrapper = new SubmissionPublisher<>();
         adapter.stream(options).subscribe(new Flow.Subscriber<>() {
             @Override

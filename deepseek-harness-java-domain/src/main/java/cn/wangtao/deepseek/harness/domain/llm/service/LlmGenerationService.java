@@ -161,6 +161,7 @@ public class LlmGenerationService {
             // 数据案例：provider="deepseek", model="glm-5.3-flash"
             //           → Message(role="assistant", source=ModelMessageSource["deepseek","glm-5.3-flash"],
             //                     content=[TextBlock("你好！有什么可以帮你？")])
+            //把流式过程中累积的所有碎片，拼成一条完整的 Message 并返回
             return assembler.message(new MessageSource.ModelMessageSource(options.provider(), options.model()));
         });
     }
