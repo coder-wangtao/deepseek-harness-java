@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
  * @author wt
  */
 @RestController
-@RequestMapping("/api/agent")
+@RequestMapping("/api/agent/stream")
 public class AgentStreamController {
 
     private final IAgentStreamApi agentStreamApi;
@@ -62,7 +62,6 @@ public class AgentStreamController {
             return t;
         });
 
-        //把耗时的流式推送工作交给后台线程执行，避免在请求处理方法里同步等待整个回答生成完毕。
         @Override
         public SseEmitter sendMessageStreaming(AgentMessageRequestDTO request) {
             log.info("[SSE] 收到流式请求 agentId={}", request.agentId());

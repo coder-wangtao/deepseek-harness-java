@@ -6,7 +6,12 @@ import cn.wangtao.deepseek.harness.api.dto.AgentToolCallEventResponseDTO;
 import cn.wangtao.deepseek.harness.api.response.Response;
 
 /**
- * Agent 对话接口：负责向 Agent 发送消息、查询状态与取消运行。
+ * Agent 对话 API 契约（xfg-2-2 最小版：仅阻塞式 /message + 状态/取消）。
+ * <p>
+ * 控制器直接实现该契约：接收 API DTO → 调用 Case 层用例
+ * → 统一包装为 Response 返回（execute() 做异常分类）。
+ * SSE 流式入口 /stream 在 xfg-2-3 引入；鉴权拦截器、更多控制器随
+ * part-07 控制台篇逐步长出，本节保持最小壳。
  *
  * @author wt
  */
